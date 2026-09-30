@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Tabela: evento
+model Evento {
+  id           Int                 @id @default(autoincrement()) @map("id_evento")
+  nome         String              @db.VarChar(100)
+  descricao    String              @db.VarChar(255)
+  local        String              @db.VarChar(150)
+  palestrantes EventoPalestrante[]
+
+  @@map("evento")
+}
+
+// Tabela: palestrante
+model Palestrante {
+  id      Int                 @id @default(autoincrement()) @map("id_palestrante")
+  nome    String              @db.VarChar(100)
+  email   String              @unique @db.VarChar(150)
+  eventos EventoPalestrante[]
+
+  @@map("palestrante")
+}
+
+// Tabela associativa (N:N): evento_palestrante
+model EventoPalestrante {
+  eventoId      Int         @map("id_evento")
+  palestranteId Int         @map("id_palestrante")
+  evento        Evento      @relation(fields: [eventoId], references: [id], onDelete: Cascade)
+  palestrante   Palestrante @relation(fields: [palestranteId], references: [id], onDelete: Cascade)
+
+  @@id([eventoId, palestranteId])
+  @@map("evento_palestrante")
+}

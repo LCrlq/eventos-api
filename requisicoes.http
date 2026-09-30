@@ -1,0 +1,87 @@
+### Use a extensão "REST Client" do VS Code: clique em "Send Request" acima de cada bloco
+@base = http://localhost:3000
+
+### ===== PALESTRANTES =====
+
+### Cadastrar palestrante
+POST {{base}}/palestrantes
+Content-Type: application/json
+
+{
+  "nome": "Ana Souza",
+  "email": "ana.souza@email.com"
+}
+
+### Cadastrar outro palestrante
+POST {{base}}/palestrantes
+Content-Type: application/json
+
+{
+  "nome": "Carlos Lima",
+  "email": "carlos.lima@email.com"
+}
+
+### Listar palestrantes
+GET {{base}}/palestrantes
+
+### Buscar palestrante
+GET {{base}}/palestrantes/1
+
+### Alterar palestrante
+PUT {{base}}/palestrantes/1
+Content-Type: application/json
+
+{
+  "nome": "Ana Souza Pereira",
+  "email": "ana.pereira@email.com"
+}
+
+### Excluir palestrante
+DELETE {{base}}/palestrantes/2
+
+### ===== EVENTOS =====
+
+### Cadastrar evento (com palestrantes opcionais)
+POST {{base}}/eventos
+Content-Type: application/json
+
+{
+  "nome": "Semana de Tecnologia",
+  "descricao": "Palestras sobre desenvolvimento web e banco de dados",
+  "local": "Auditório Central",
+  "palestrantes": [1]
+}
+
+### Listar eventos com palestrantes
+GET {{base}}/eventos
+
+### Buscar evento
+GET {{base}}/eventos/1
+
+### Alterar evento
+PUT {{base}}/eventos/1
+Content-Type: application/json
+
+{
+  "nome": "Semana de Tecnologia 2026",
+  "descricao": "Palestras sobre Node.js, Prisma e MySQL",
+  "local": "Auditório B"
+}
+
+### Adicionar palestrante ao evento
+POST {{base}}/eventos/1/palestrantes/2
+
+### Remover palestrante do evento
+DELETE {{base}}/eventos/1/palestrantes/2
+
+### Excluir evento
+DELETE {{base}}/eventos/1
+
+### Teste de validação (deve retornar 400)
+POST {{base}}/eventos
+Content-Type: application/json
+
+{
+  "nome": "",
+  "descricao": "Sem nome e sem local"
+}
